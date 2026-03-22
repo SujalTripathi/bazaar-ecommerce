@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, Search, User, Menu, X, Sun, Moon } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
+import CartDrawer from "@/components/CartDrawer";
 
 const navLinks = [
   { label: "Electronics", href: "#electronics" },
@@ -13,7 +15,8 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dark, setDark] = useState(false);
-  const [cartCount] = useState(3);
+  const { totalItems, isOpen, setIsOpen } = useCartStore();
+  const cartCount = totalItems();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -26,6 +29,7 @@ const Navbar = () => {
   }, [dark]);
 
   return (
+    <>
     <motion.header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       initial={false}
@@ -73,10 +77,10 @@ const Navbar = () => {
           <button className="p-2 rounded-full hover:bg-muted transition-colors active:scale-95" aria-label="Account">
             <User size={18} />
           </button>
-          <button className="relative p-2 rounded-full hover:bg-muted transition-colors active:scale-95" aria-label="Cart">
+          <button onClick={() => setIsOpen(!isOpen)} className="relative p-2 rounded-full hover:bg-muted transition-colors active:scale-95" aria-label="Cart">
             <ShoppingCart size={18} />
             {cartCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 bg-accent text-accent-foreground text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center rounded-full leading-none min-w-[18px] min-h-[18px]">
+              <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4.5 h-4.5 flex items-center justify-center rounded-full leading-none min-w-[18px] min-h-[18px]">
                 {cartCount}
               </span>
             )}
@@ -117,6 +121,8 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </motion.header>
+    <CartDrawer />
+    </>
   );
 };
 
