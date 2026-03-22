@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { ShoppingCart, Heart } from "lucide-react";
+import toast from "react-hot-toast";
 import electronicsImg from "@/assets/product-headphones.jpg";
 import opticsImg from "@/assets/product-glasses.jpg";
 import foodImg from "@/assets/product-food.jpg";
 import clothingImg from "@/assets/product-clothing.jpg";
+import { useCartStore } from "@/store/cartStore";
 
 const products = [
   { id: 1, name: "Studio Pro Headphones", category: "Electronics", price: 4999, originalPrice: 7499, image: electronicsImg, rating: 4.8 },
@@ -17,6 +19,19 @@ const products = [
 const formatPrice = (p: number) => `₹${p.toLocaleString("en-IN")}`;
 
 const TrendingProducts = () => {
+  const { addToCart } = useCartStore();
+
+  const handleAddToCart = (p: typeof products[number]) => {
+    addToCart(p);
+    toast.success("Added to cart!", {
+      style: {
+        background: "#0a0a0a",
+        color: "#fff",
+        border: "1px solid #222",
+      },
+      iconTheme: { primary: "#4ade80", secondary: "#0a0a0a" },
+    });
+  };
   return (
     <section id="trending" className="section-padding py-20 sm:py-28 bg-card/50">
       <div className="container-wide">
@@ -93,6 +108,7 @@ const TrendingProducts = () => {
                     )}
                   </div>
                   <button
+                    onClick={() => handleAddToCart(p)}
                     className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:shadow-md transition-all duration-200 active:scale-90"
                     aria-label="Add to cart"
                   >
