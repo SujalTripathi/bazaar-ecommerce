@@ -42,8 +42,9 @@ const TrendingProducts = () => {
               key={p.id}
               initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
               whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              whileHover={{ scale: 1.03 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.6, delay: i * 0.07, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="group bg-background rounded-lg overflow-hidden transition-shadow duration-300"
               style={{ boxShadow: "var(--card-shadow)" }}
               onMouseEnter={(e) => {
